@@ -1,0 +1,57 @@
+{
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && rm -rf ../../cache",
+    "lint": "yarn lint:styles && yarn lint:scripts && yarn lint:php && yarn lint:other",
+    "lint:styles": "stylelint **/*.{css,scss,vue} --quiet-deprecation-warnings",
+    "lint:scripts": "eslint .",
+    "lint:php": "composer lint && composer analyze",
+    "lint:other": "prettier . --check",
+    "format": "yarn format:styles && yarn format:scripts && yarn format:php && yarn format:other",
+    "format:styles": "stylelint **/*.{css,scss,vue} --fix --quiet-deprecation-warnings",
+    "format:scripts": "eslint . --fix",
+    "format:php": "composer format",
+    "format:other": "prettier . --write",
+    "release": "wp fm release",
+    "release:zip": "wp fm release --zip",
+    "block": "wp fm block",
+    "updates": "yarn upgrade-interactive --latest && composer upgrade --lock && composer bump",
+    "prepare": "cd ../../.. && husky wp-content/themes/footmate/.husky"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@stylistic/stylelint-config": "^2.0.0",
+    "eslint": "^9.20.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^17.15.1",
+    "eslint-plugin-promise": "^7.2.1",
+    "glob": "^11.0.1",
+    "globals": "^15.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "postcss": "^8.4.38",
+    "prettier": "3.5.0",
+    "prettier-plugin-blade": "^2.1.19",
+    "sass": "^1.84.0",
+    "stylelint": "^16.14.1",
+    "stylelint-config-clean-order": "^7.0.0",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-order": "^6.0.4",
+    "vite": "^6.1.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ]
+}

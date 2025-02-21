@@ -73,6 +73,7 @@ function wp:init() {
     curl https://raw.githubusercontent.com/przemekhernik/templates/main/gitignore/.gitignore.wp -o .gitignore
     curl https://raw.githubusercontent.com/przemekhernik/templates/main/htaccess/.htaccess.wp -o .htaccess
     curl https://raw.githubusercontent.com/przemekhernik/templates/main/htaccess/.htpasswd.wp -o .htpasswd
+    curl https://raw.githubusercontent.com/przemekhernik/templates/main/wordpress/phpcs.xml.dist -o phpcs.xml.dist
 
     wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST:$DB_PORT --dbcharset=utf8mb4 --dbcollate=utf8mb4_general_ci
     wp config set WP_DEBUG true --raw
@@ -80,7 +81,7 @@ function wp:init() {
     wp config set WP_DEBUG_LOG true --raw
     wp config set WP_ENVIRONMENT_TYPE development
     wp config set DISALLOW_FILE_EDIT true --raw
-    wp config set WP_AUTO_UPDATE_CORE true --raw
+    wp config set WP_AUTO_UPDATE_CORE false --raw
 
     wp db reset --yes
     wp core install --url=https://$DOMAIN_LOCAL --title=$TITLE --admin_user=$ADMIN_LOGIN --admin_password=$ADMIN_PASS --admin_email="$ADMIN_EMAIL" --skip-email
@@ -90,13 +91,9 @@ function wp:init() {
     wp post update 2 --post_title=Homepage --post_name=homepage
     wp term update category 1 --name=News --slug=news
     wp plugin delete hello akismet
-    wp theme activate twentytwentyfive
+    wp theme delete twentytwentythree
     wp theme delete twentytwentyfour
     wp comment delete 1 --force
-    wp menu create "Primary"
-    wp menu create "Secondary"
-    wp menu create "Footer"
-    wp widget reset --all
     wp rewrite structure '/%postname%/'
     wp option set blog_public 0
     wp option update show_on_front page
@@ -104,6 +101,18 @@ function wp:init() {
     wp option update page_for_posts $(wp post create --post_title=Blog --post_name=blog --post_type=page --post_status=publish --post_author=1 --porcelain)
     wp option update default_comment_status closed
     wp option update default_ping_status closed
+    wp rewrite flush
+
+    mv wp-content/themes/footmate wp-content/themes/$THEME_SLUG
+    cd wp-content/themes/$THEME_SLUG
+    composer install && yarn && yarn build
+    cd ../../..
+    wp theme activate $THEME_SLUG/resources
+    wp fm rename --company="$THEME_COMPANY" --name="$THEME_NAME" --slug="$THEME_SLUG" --namespace="$THEME_NAMESPACE" --initials="$THEME_INITIALS" --domain="$DOMAIN_LOCAL"
+    cd wp-content/themes/$THEME_SLUG
+    composer install && yarn && yarn build
+    cd ../../..
+    rm -rf .git
 
     open "https://$DOMAIN_LOCAL"
   fi
