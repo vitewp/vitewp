@@ -14,7 +14,7 @@ trait Resolver
         $path = fm()->config()->get('manifest.path');
 
         if (empty($path) || ! file_exists($path)) {
-            wp_die('Run <code>npm run build</code> in your application root!');
+            wp_die('Run <code>yarn build</code> in your application root!');
         }
 
         $data = fm()->filesystem()->get($path);
@@ -84,6 +84,7 @@ trait Resolver
         switch ($config['type']) {
             case 'script':
                 wp_enqueue_script($config['handle'], $config['src'], $config['deps'], $config['version'], true);
+                wp_set_script_translations($config['handle'], 'fm');
                 break;
 
             case 'style':

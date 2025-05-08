@@ -78,6 +78,9 @@
   <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman">
     <severity>5</severity>
   </rule>
+  <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace">
+    <severity>0</severity>
+  </rule>
 
   <!-- Other -->
   <rule ref="Internal.NoCodeFound">
