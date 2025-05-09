@@ -25,7 +25,7 @@ class Console
             'fm block',
             [$this, 'block'],
             [
-                'shortdesc' => 'Creates a new block of the theme.',
+                'shortdesc' => 'Creates a new block in the theme.',
             ]
         );
 
@@ -33,7 +33,15 @@ class Console
             'fm component',
             [$this, 'component'],
             [
-                'shortdesc' => 'Creates a new component of the theme.',
+                'shortdesc' => 'Creates a new component in the theme.',
+            ]
+        );
+
+        WP_CLI::add_command(
+            'fm template',
+            [$this, 'template'],
+            [
+                'shortdesc' => 'Creates a new template in the theme.',
             ]
         );
 
@@ -83,11 +91,11 @@ class Console
             ->filter(fn($file) => in_array($file->getExtension(), ['scss', 'js'], true))
             ->each(fn($file) => fm()->filesystem()->delete($file->getPathname()));
 
-        collect(fm()->filesystem()->allFiles($paths['output'] . '/resources/templates', true))
+        collect(fm()->filesystem()->allFiles($paths['output'] . '/resources/components', true))
             ->filter(fn($file) => in_array($file->getExtension(), ['scss', 'js'], true))
             ->each(fn($file) => fm()->filesystem()->delete($file->getPathname()));
 
-        collect(fm()->filesystem()->allFiles($paths['output'] . '/resources/components', true))
+        collect(fm()->filesystem()->allFiles($paths['output'] . '/resources/templates', true))
             ->filter(fn($file) => in_array($file->getExtension(), ['scss', 'js'], true))
             ->each(fn($file) => fm()->filesystem()->delete($file->getPathname()));
 
@@ -196,6 +204,52 @@ class Console
         }
 
         WP_CLI::success('🚀 Component created.');
+    }
+
+    public function template(array $args = [], array $assoc = []): void
+    {
+        if (empty($assoc['id'])) {
+            WP_CLI::error('Template ID is required.');
+        }
+
+        if (empty($assoc['title'])) {
+            WP_CLI::error('Template Title is required.');
+        }
+
+        if (!preg_match('/^[a-z\-]+$/', $assoc['id'])) {
+            WP_CLI::error('Template ID has incorrect format.');
+        }
+
+        if (!preg_match('/^[a-zA-Z]+$/', $assoc['title'])) {
+            WP_CLI::error('Template Title has incorrect format.');
+        }
+
+        if (fm()->filesystem()->exists(FM_PATH . '/app/Templates/' . $assoc['title'] . '.php')) {
+            WP_CLI::error('Template already exists.');
+        }
+
+        if (fm()->filesystem()->exists(FM_PATH . '/resources/templates/' . $assoc['id'])) {
+            WP_CLI::error('Template already exists.');
+        }
+
+        fm()->filesystem()->copy(FM_PATH . '/app/Templates/Base.php', FM_PATH . '/app/Templates/' . $assoc['title'] . '.php');
+        fm()->filesystem()->copyDirectory(FM_PATH . '/resources/templates/base', FM_PATH . '/resources/templates/' . $assoc['id']);
+
+        $files = [
+            FM_PATH . '/app/Templates/' . $assoc['title'] . '.php',
+            FM_PATH . '/resources/templates/' . $assoc['id'] . '/template.blade.php',
+            FM_PATH . '/resources/templates/' . $assoc['id'] . '/script.js',
+            FM_PATH . '/resources/templates/' . $assoc['id'] . '/style.scss',
+        ];
+
+        foreach ($files as $file) {
+            $content = fm()->filesystem()->get($file);
+            $content = str_replace('Base', $assoc['title'], $content);
+            $content = str_replace('base', $assoc['id'], $content);
+            fm()->filesystem()->put($file, $content);
+        }
+
+        WP_CLI::success('🚀 Template created.');
     }
 
     public function rename(array $args = [], array $assoc = []): void
