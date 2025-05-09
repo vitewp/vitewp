@@ -2,6 +2,8 @@
 
 namespace FM\Templates;
 
+use FM\Templates\Template;
+
 class Templates
 {
     private array $templates = [];
@@ -22,6 +24,16 @@ class Templates
         }
     }
 
+    public function has(string $template): bool
+    {
+        return isset($this->templates[$template]);
+    }
+
+    public function get(string $template): Template
+    {
+        return $this->templates[$template];
+    }
+
     /**
      * @filter theme_page_templates
      */
@@ -38,21 +50,5 @@ class Templates
         asort($templates);
 
         return $templates;
-    }
-
-    /**
-     * @filter template_include 9999
-     */
-    public function render(string $path): string
-    {
-        $template = get_post_meta(get_the_id(), '_wp_page_template', true);
-
-        if (! empty($template) && ! empty($this->templates[$template])) {
-            $this->templates[$template]->render();
-
-            return fm()->config()->get('resources.path') . '/index.php';
-        }
-
-        return $path;
     }
 }

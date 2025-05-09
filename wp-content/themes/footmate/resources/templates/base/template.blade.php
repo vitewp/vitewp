@@ -1,10 +1,10 @@
 @extends('index')
 
 @section('content')
-    <div
+    <main
         class="template-base"
         data-template="base"
     >
         base
-    </div>
+    </main>
 @endsection

@@ -65,7 +65,7 @@ The project uses [Vite](https://pragmate.dev/wordpress/vite/integration/) as a b
 *   Each Pull Request must meet the following requirements before merging:
     *   It must pass the coding standard checks defined in Github Actions / Bitbucket Pipelines.
     *   It should include Toggl, Basecamp, Preview links in the description.
-    *   It should include screenshots from design and implementation.
+    *   It should include screenshots from implementation.
     *   It should include screenshot with Performance and Accessibility scores.
         *   [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) built-in into Chrome can be used for measurements.
         *   There should be not not any accessibility issues related to the specific feature.

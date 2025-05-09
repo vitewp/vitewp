@@ -1,6 +1,6 @@
 <?php
 
-namespace CB\Integrations;
+namespace FM\Integrations;
 
 trait ACFInnerBlocks
 {

@@ -17,15 +17,13 @@
         {!! do_action('wp_body_open') !!}
         {!! do_action('get_header') !!}
 
-        <div>
-            @section('header')
-            @show
+        @section('header')
+        @show
 
-            @yield('content')
+        @yield('content')
 
-            @section('footer')
-            @show
-        </div>
+        @section('footer')
+        @show
 
         {!! do_action('get_footer') !!}
         {!! do_action('wp_footer') !!}

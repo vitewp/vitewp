@@ -44,12 +44,18 @@ class Resolver
      */
     public function render(string $template): string
     {
-        if (! fm()->config()->isTheme()) {
-            return $template;
+        $id = get_post_meta(get_the_id(), '_wp_page_template', true);
+
+        if (fm()->templates()->has($id)) {
+            fm()->templates()->get($id)->render();
+            return fm()->config()->get('resources.path') . '/index.php';
         }
 
-        fm()->templating()->render($template, []);
+        if (fm()->config()->isTheme()) {
+            fm()->templating()->render($template);
+            return fm()->config()->get('resources.path') . '/index.php';
+        }
 
-        return fm()->config()->get('resources.path') . '/index.php';
+        return $template;
     }
 }

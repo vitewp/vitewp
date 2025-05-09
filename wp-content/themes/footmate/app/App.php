@@ -9,6 +9,7 @@ use FM\Components\Components;
 use FM\Core\Config;
 use FM\Core\Hooks;
 use FM\Integrations\Integrations;
+use FM\Media\Media;
 use FM\Setup;
 use FM\Templates\Templates;
 use FM\Templating\Templating;
@@ -30,12 +31,13 @@ class App
 
     private Integrations $integrations;
 
+    private Media $media;
+
     private Setup $setup;
 
     private Templates $templates;
 
     private Templating $templating;
-
 
     private static ?App $instance = null;
 
@@ -48,6 +50,7 @@ class App
         $this->config = self::init(new Config());
         $this->filesystem = new Filesystem();
         $this->integrations = self::init(new Integrations());
+        $this->media = self::init(new Media());
         $this->setup = self::init(new Setup());
         $this->templates = self::init(new Templates());
         $this->templating = self::init(new Templating());
@@ -86,6 +89,11 @@ class App
     public function integrations(): Integrations
     {
         return $this->integrations;
+    }
+
+    public function media(): Media
+    {
+        return $this->media;
     }
 
     public function setup(): Setup

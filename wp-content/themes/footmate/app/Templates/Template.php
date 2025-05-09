@@ -140,7 +140,7 @@ abstract class Template
         return ! empty($this->getSchema());
     }
 
-    public function isPrimary(): bool
+    final public function isPrimary(): bool
     {
         return ! empty($this->primary);
     }
@@ -150,6 +150,11 @@ abstract class Template
         $this->primary = $primary;
     }
 
+    final public function isCurrent(): bool
+    {
+        return $this->getId() === get_post_meta(get_the_id(), '_wp_page_template', true);
+    }
+
     /**
      * @action wp_enqueue_scripts
      */
@@ -157,23 +162,6 @@ abstract class Template
     {
         if ($this->isPrimary()) {
             $this->enqueue();
-        }
-    }
-
-    /**
-     * @action wp_enqueue_scripts 1000
-     * @action admin_enqueue_scripts
-     */
-    public function unset(): void
-    {
-        $template = get_post_meta(get_the_id(), '_wp_page_template', true);
-
-        if ($this->getId() === $template) {
-            wp_dequeue_style('app/0');
-            wp_dequeue_script('app/0');
-            wp_dequeue_script('app/1');
-            wp_dequeue_script('app/2');
-            wp_dequeue_style('global-styles');
         }
     }
 }
