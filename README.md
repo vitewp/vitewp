@@ -73,9 +73,32 @@ The project uses [Vite](https://pragmate.dev/wordpress/vite/integration/) as a b
     *   It should have at least one approval from the project leader.
         *   Pull requests must be assigned for review only when all the previous requirements are met.
 
-### Blocks
+## Components
 
-The project is created using a [component-driven](https://pragmate.dev/architecture/component-driven-development/#what-are-the-5-rules-of-a-good-component) approach. It consists of [blocks](https://github.com/vitewp/vitewp/tree/develop/wp-content/themes/footmate/resources/blocks) implementing one specific feature, which is used then to build the whole website with the support of ACF Blocks.
+The project is created using a [component-driven](https://pragmate.dev/architecture/component-driven-development/#what-are-the-5-rules-of-a-good-component) approach. It consists of [components](https://github.com/vitewp/vitewp/tree/master/wp-content/themes/footmate/resources/components), [blocks](https://github.com/vitewp/vitewp/tree/master/wp-content/themes/footmate/resources/blocks), and [templates](https://github.com/vitewp/vitewp/tree/master/wp-content/themes/footmate/resources/templates). Although each of them serve different role they share a similar style.
+
+### Component
+
+Components are the smallest units used to build websites supported by [Laravel Blade](https://laravel.com/docs/12.x/blade#rendering-components). They are available throughout the website and should include only the most basic functionalities to maintain simplicity.
+
+*   Creation: `yarn component --id=button --title=Button`
+*   Usage: `<x-button />`
+
+### Block
+
+Blocks are larger units integrated with [ACF and Gutenberg](https://www.advancedcustomfields.com/resources/blocks/), used to define the layout of the website. They can include more complex functionalities and utilize granular components. When possible, blocks should use [InnerBlocks](https://www.advancedcustomfields.com/resources/acf-blocks-using-innerblocks-and-parent-child-relationships/) to provide flexibility for clients and should [utilize container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) instead of traditional media queries.
+
+*   Creation: `yarn component --id=button --title=Button`
+*   Usage: `{!! block('base')->render(['title' => 'custom title']) !!}`
+
+### Template
+
+Templates are the largest components. Those defined in the theme are automatically resolved and rendered by WordPress.
+
+*   Creation: `yarn template --id=article --title=Article`
+*   Usage: Choose page template from WordPress admin panel.
+
+### Example
 
 1.  Block Structure:
     1.  [Controller](https://github.com/vitewp/vitewp/blob/master/wp-content/themes/footmate/app/Blocks/Base.php): Used for defining the [block schema](https://github.com/vitewp/vitewp/blob/master/wp-content/themes/footmate/app/Blocks/Base.php#L13-L17), [default data](https://github.com/vitewp/vitewp/blob/master/wp-content/themes/footmate/app/Blocks/Base.php#L18-L22) and any backend mechanisms.
