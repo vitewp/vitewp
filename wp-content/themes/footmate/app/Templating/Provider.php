@@ -3,6 +3,7 @@
 namespace FM\Templating;
 
 use FM\Templating\Directives;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\View\View;
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\Factory;
@@ -55,5 +56,12 @@ class Provider
         $this->factory = new Factory($resolver, $finder, $dispatcher);
 
         do_action('fm_templating_provider_init', $compiler, $finder);
+
+        Container::getInstance()->bind(
+            'Illuminate\Contracts\View\Factory',
+            function () {
+                return $this->factory;
+            }
+        );
     }
 }
