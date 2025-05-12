@@ -51,6 +51,7 @@ The project uses [Vite](https://pragmate.dev/wordpress/vite/integration/) as a b
 *   The project uses [Singleton](https://pragmate.dev/wordpress/architecture/singleton/) for managing modules.
 *   The project uses [DocHooks syntax](https://pragmate.dev/wordpress/dochooks/#what-are-dochooks) for handling filters and actions.
 *   The project uses [Laravel Blade](https://pragmate.dev/wordpress/blade/introduction/) for creating components HTML structure.
+*   The project uses [Ignition](https://flareapp.io/docs/ignition/introducing-ignition/overview) extension to track errors.
 *   The project defines [coding standards](https://pragmate.dev/environment/linting/) for [PHP](https://pragmate.dev/php/phpcs/), [SCSS](https://pragmate.dev/css/stylelint/), [JS](https://pragmate.dev/js/eslint/) that must be met.
 *   The project uses Gutenberg to build the visual layer with [ACF Blocks](https://www.advancedcustomfields.com/resources/blocks/).
 *   The project [should limit plugins usage](https://pragmate.dev/wordpress/do-you-need-plugins/#how-to-decide-about-plugins-usage) as much as possible.

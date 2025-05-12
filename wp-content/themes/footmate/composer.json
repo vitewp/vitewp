@@ -15,7 +15,8 @@
     "illuminate/view": "^12.10",
     "illuminate/support": "^12.10",
     "illuminate/translation": "^12.10",
-    "illuminate/validation": "^12.10"
+    "illuminate/validation": "^12.10",
+    "spatie/ignition": "^1.15"
   },
   "scripts": {
     "lint": "phpcs",
