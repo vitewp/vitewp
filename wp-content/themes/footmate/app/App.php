@@ -6,6 +6,7 @@ use FM\Assets\Assets;
 use FM\Blocks\Blocks;
 use FM\Cache;
 use FM\Components\Components;
+use FM\Core\Core;
 use FM\Core\Config;
 use FM\Core\Hooks;
 use FM\Integrations\Integrations;
@@ -17,6 +18,8 @@ use Illuminate\Filesystem\Filesystem;
 
 class App
 {
+    private Core $core;
+
     private Assets $assets;
 
     private Blocks $blocks;
@@ -43,6 +46,7 @@ class App
 
     private function __construct()
     {
+        $this->core = self::init(new Core());
         $this->assets = self::init(new Assets());
         $this->blocks = self::init(new Blocks());
         $this->cache = self::init(new Cache());
@@ -54,6 +58,11 @@ class App
         $this->setup = self::init(new Setup());
         $this->templates = self::init(new Templates());
         $this->templating = self::init(new Templating());
+    }
+
+    public function core(): Core
+    {
+        return $this->core;
     }
 
     public function assets(): Assets
