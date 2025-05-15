@@ -3,7 +3,14 @@
 @section('content')
     <main class="-wrapper">
         @if (have_posts())
-            {{ the_title() }}
+            @while (have_posts())
+                {{ the_post() }}
+                <div>
+                    <a href="{{ the_permalink() }}">
+                        {{ the_title() }}
+                    </a>
+                </div>
+            @endwhile
         @endif
     </main>
 @endsection
