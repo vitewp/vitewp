@@ -57,6 +57,33 @@ class Validation
                 __('The :attribute is invalid.', 'fm')
             );
 
+            $factory->extend(
+                'link',
+                function (string $attribute, mixed $value) {
+                    if (empty($value['title'])) {
+                        return false;
+                    }
+
+                    if (empty($value['url'])) {
+                        return false;
+                    }
+
+                    if (! filter_var($value['url'], FILTER_VALIDATE_URL)) {
+                        return false;
+                    }
+
+                    if (
+                        ! empty($value['target']) &&
+                        ! in_array($value['target'], ['_blank', '_self', '_parent', '_top'])
+                    ) {
+                        return false;
+                    }
+
+                    return true;
+                },
+                __('The :attribute is invalid.', 'fm')
+            );
+
             do_action('fm_core_validation_factory', $factory);
 
             wp_cache_set('fm_validation_factory', $factory);

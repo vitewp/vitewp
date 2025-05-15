@@ -8,7 +8,7 @@ class Core
 {
     public function __construct()
     {
-        if (! empty(WP_DEBUG) && ! empty(WP_ENVIRONMENT_TYPE) && WP_ENVIRONMENT_TYPE === 'development') {
+        if (! empty(WP_DEBUG)) {
             \FM\App::init(new Debugger());
         }
     }
