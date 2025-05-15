@@ -22,6 +22,7 @@
     <exclude name="Squiz.Commenting.FunctionCommentThrowTag" />
     <exclude name="Squiz.Commenting.VariableComment" />
     <exclude name="Generic.Commenting.DocComment" />
+    <exclude name="Generic.Functions.CallTimePassByReference" />
 
     <!-- Naming-->
     <exclude name="WordPress.Files.FileName" />
