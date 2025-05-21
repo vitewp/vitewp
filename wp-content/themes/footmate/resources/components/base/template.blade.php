@@ -1,6 +1,9 @@
 <div
-    class="component-base"
-    data-component="base"
+    {{
+        $attributes->class([])->merge([
+            'class' => 'component-base',
+        ])
+    }}
 >
     {{ $title }}
 </div>
