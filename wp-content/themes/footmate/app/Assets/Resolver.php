@@ -46,6 +46,11 @@ trait Resolver
             'src' => ! empty($path) ? $this->resolve($path) : $path,
             'deps' => ! empty($config['deps']) ? $config['deps'] : [],
             'version' => ! empty($config['version']) ? $config['version'] : fm()->config()->get('version'),
+            'args' => [
+                'strategy' => ! empty($config['strategy']) ? $config['strategy'] : null,
+                'footer' => isset($config['footer']) ? (bool) $config['footer'] : true,
+                'media' => ! empty($config['media']) ? $config['media'] : 'all',
+            ],
             'type' => ! empty($config['type']) ? $config['type'] : '',
         ];
 
@@ -83,12 +88,27 @@ trait Resolver
 
         switch ($config['type']) {
             case 'script':
-                wp_enqueue_script($config['handle'], $config['src'], $config['deps'], $config['version'], true);
+                wp_enqueue_script(
+                    $config['handle'],
+                    $config['src'],
+                    $config['deps'],
+                    $config['version'],
+                    [
+                        'strategy' => $config['args']['strategy'],
+                        'in_footer' => $config['args']['footer'],
+                    ]
+                );
                 wp_set_script_translations($config['handle'], 'fm');
                 break;
 
             case 'style':
-                wp_enqueue_style($config['handle'], $config['src'], $config['deps'], $config['version']);
+                wp_enqueue_style(
+                    $config['handle'],
+                    $config['src'],
+                    $config['deps'],
+                    $config['version'],
+                    $config['args']['media']
+                );
                 break;
         }
 
