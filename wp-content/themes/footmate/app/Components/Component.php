@@ -26,6 +26,8 @@ abstract class Component extends ComponentBase
     {
         ob_start();
 
+        $data['attributes'] = $this->newAttributeBag();
+
         fm()->templating()->render("components::{$this->getId()}.template", $this->parse($data));
 
         return ob_get_clean();
