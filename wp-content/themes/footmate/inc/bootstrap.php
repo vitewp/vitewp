@@ -20,9 +20,16 @@ if (! function_exists('fm')) {
 }
 
 if (! function_exists('block')) {
-    function block(string $key): FM\Blocks\Block
+    function block(string $key): ?FM\Blocks\Block
     {
         return FM\App::get()->blocks()->get($key);
+    }
+}
+
+if (! function_exists('component')) {
+    function component(string $key): ?FM\Components\Component
+    {
+        return FM\App::get()->components()->get($key);
     }
 }
 

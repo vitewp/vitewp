@@ -2,7 +2,7 @@
 
 namespace FM\Components;
 
-use Illuminate\View\Compilers\BladeCompiler;
+use FM\Components\Component;
 
 class Components
 {
@@ -24,10 +24,20 @@ class Components
         }
     }
 
+    public function get(string $key): ?Component
+    {
+        return ! empty($this->components[$key]) ? $this->components[$key] : null;
+    }
+
+    public function all(): array
+    {
+        return $this->components;
+    }
+
     /**
      * @action fm_templating_provider_init
      */
-    public function register(BladeCompiler $compiler): void
+    public function register(\Illuminate\View\Compilers\BladeCompiler $compiler): void
     {
         foreach ($this->components as $component) {
             $compiler->component($component->getId(), $component::class);
