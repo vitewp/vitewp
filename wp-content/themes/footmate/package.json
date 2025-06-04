@@ -18,7 +18,7 @@
     "format:other": "prettier . --write",
     "release": "wp fm release",
     "release:zip": "wp fm release --zip",
-    "report": "yarn report:lighthouse",
+    "report": "yarn build && yarn report:lighthouse",
     "report:lighthouse": "node .vite/lighthouse.js",
     "translate": "yarn build && yarn translate:build",
     "translate:build": "wp i18n make-pot . resources/lang.pot --include=\"app,dist,inc,resources/*.php\" --skip-audit",
