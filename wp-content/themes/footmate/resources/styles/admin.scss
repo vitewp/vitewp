@@ -6,4 +6,12 @@
 
 .wp-admin {
   position: relative;
+
+  .editor-sidebar {
+    .acf-block-fields {
+      .acf-field {
+        width: 100% !important;
+      }
+    }
+  }
 }
