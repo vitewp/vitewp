@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<ruleset name="tentypdev">
+<ruleset name="pragmatedev">
   <arg name="colors" />
   <arg value="s" />
   <arg name="extensions" value="php" />

@@ -30,6 +30,7 @@ Here are the steps that should be performed when initializing an ongoing WordPre
     1.  `composer install`
     2.  `yarn`
     3.  `yarn build`
+    4.  `yarn release`
 5.  Get the `db.sql.gz` file from the team and put it in the project root directory.
 6.  Open the terminal and in the project root fire the `./wp.sh db:import` command.
 7.  Download the `wp-content/uploads` to your local environment from the production server.
