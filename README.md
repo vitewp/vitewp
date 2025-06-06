@@ -1,4 +1,4 @@
-### Initialization
+## Initialization
 
 Here are the steps that should be performed when initializing a new WordPress project.
 
@@ -14,7 +14,7 @@ Here are the steps that should be performed when initializing a new WordPress pr
 
 📹 https://www.youtube.com/watch?v=USqQ8lZuIsc
 
-### Installation
+## Installation
 
 Here are the steps that should be performed when initializing an ongoing WordPress project.
 
@@ -35,7 +35,7 @@ Here are the steps that should be performed when initializing an ongoing WordPre
 7.  Download the `wp-content/uploads` to your local environment from the production server.
 8.  Open the `https://example.test`.
 
-### Development
+## Commands
 
 The project uses [Vite](https://pragmate.dev/wordpress/vite/integration/) as a bundler and development server with [HMR and Hot Reload](https://pragmate.dev/wordpress/vite/integration/#_4-bundling-improves-development-experience) features.
 
@@ -44,31 +44,36 @@ The project uses [Vite](https://pragmate.dev/wordpress/vite/integration/) as a b
 *   `yarn release `\- Builds theme in production mode and put files to put on server in the `.output` directory.
 *   `yarn format` - Formats codebase to meet defined coding standards.
 *   `yarn lint` - Checks codebase for meeting defined coding standards.
+*   `yarn report` - Tests the `/playground/` template with Lighthouse.
 
-### General
+## General
 
 *   The project uses [Object Oriented](https://pragmate.dev/wordpress/architecture/oop-vs-procedural/#object-oriented-approach-in-wordpress) approach.
 *   The project uses [Singleton](https://pragmate.dev/wordpress/architecture/singleton/) for managing modules.
 *   The project uses [DocHooks syntax](https://pragmate.dev/wordpress/dochooks/#what-are-dochooks) for handling filters and actions.
 *   The project uses [Laravel Blade](https://pragmate.dev/wordpress/blade/introduction/) for creating components HTML structure.
-*   The project uses [Ignition](https://flareapp.io/docs/ignition/introducing-ignition/overview) extension to track errors.
 *   The project defines [coding standards](https://pragmate.dev/environment/linting/) for [PHP](https://pragmate.dev/php/phpcs/), [SCSS](https://pragmate.dev/css/stylelint/), [JS](https://pragmate.dev/js/eslint/) that must be met.
 *   The project uses Gutenberg to build the visual layer with [ACF Blocks](https://www.advancedcustomfields.com/resources/blocks/).
 *   The project [should limit plugins usage](https://pragmate.dev/wordpress/do-you-need-plugins/#how-to-decide-about-plugins-usage) as much as possible.
 *   The project should [split the responsibilities](https://pragmate.dev/architecture/model-view-controller/) as much as possible.
 *   The project uses [GitFlow](https://danielkummer.github.io/git-flow-cheatsheet/) as a branching workflow.
+*   The project uses `wp.sh` [script](https://github.com/vitewp/vitewp/blob/master/wp.sh) to manage database and other operations to automate workflows and keep environment integrity.
 *   Server details, passwords and other sensitive data are stored in 1Password.
 *   During the development phase all the custom blocks should be listed on the demo template so the team can access them at one place.
 
-### Code Review
+## Development
+
+*   Components should be developed on the [/playground/ page](https://example.com/playground/) available in the infrastructure.
+*   After finishing implementation, the Lighthouse tests should be done with `yarn report` command.
+*   After approving PR, staging server should be updated and the new block should be added to the [/demo/ page](https://example.com/demo/).
+
+## Code Review
 
 *   Each `feature` branch must be merged to `develop` branch only via the Pull Request.
 *   Each Pull Request must meet the following requirements before merging:
     *   It must pass the coding standard checks defined in Github Actions / Bitbucket Pipelines.
     *   It should include Toggl, Basecamp, Preview links in the description.
-    *   It should include screenshots from implementation.
-    *   It should include screenshot with Performance and Accessibility scores.
-        *   [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) built-in into Chrome can be used for measurements.
+    *   It should include screenshots from Lighthouse tests performed by `yarn report` command for desktop or mobile.
         *   There should be not not any accessibility issues related to the specific feature.
         *   There should be not not any performance issues related to the specific feature.
     *   It should have at least one approval from the project leader.
@@ -89,7 +94,7 @@ Components are the smallest units used to build websites supported by [Laravel B
 
 Blocks are larger units integrated with [ACF and Gutenberg](https://www.advancedcustomfields.com/resources/blocks/), used to define the layout of the website. They can include more complex functionalities and utilize granular components. When possible, blocks should use [InnerBlocks](https://www.advancedcustomfields.com/resources/acf-blocks-using-innerblocks-and-parent-child-relationships/) to provide flexibility for clients and should [utilize container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) instead of traditional media queries.
 
-*   Creation: `yarn component --id=button --title=Button`
+*   Creation: `yarn block --id=button --title=Button`
 *   Usage: `{!! block('base')->render(['title' => 'custom title']) !!}`
 
 ### Template
