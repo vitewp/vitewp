@@ -30,9 +30,12 @@ class Assets
         wp_localize_script(
             'script',
             'fm',
-            [
-                'ajax' => admin_url('admin-ajax.php'),
-            ]
+            apply_filters(
+                'fm_assets_localize',
+                [
+                    'ajax' => admin_url('admin-ajax.php'),
+                ]
+            )
         );
     }
 
