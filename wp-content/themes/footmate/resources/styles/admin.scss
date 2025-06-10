@@ -5,7 +5,13 @@
   'abstracts/modifiers';
 
 .wp-admin {
-  position: relative;
+  .is-root-container {
+    & > .wp-block {
+      width: 90% !important;
+      max-width: 100dvw !important;
+      margin: 5rem 0;
+    }
+  }
 
   .editor-sidebar {
     .acf-block-fields {
