@@ -38,7 +38,7 @@ abstract class Component extends ComponentBase
         $data = array_replace_recursive($this->getData(), $data);
         $data = apply_filters("fm_components_{$this->getId()}_data", $data);
 
-        if ($this->hasSchema()) {
+        if ($this->hasSchema() && ! is_admin()) {
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
