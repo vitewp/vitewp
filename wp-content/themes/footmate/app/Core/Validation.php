@@ -10,6 +10,16 @@ use Illuminate\Filesystem\Filesystem;
 
 class Validation
 {
+    public static function valid(mixed $data, string|array $rules): bool
+    {
+        $validator = self::factory()->make(
+            is_string($rules) ? ['value' => $data] : $data,
+            is_string($rules) ? ['value' => $rules] : $rules
+        );
+
+        return ! $validator->fails();
+    }
+
     public static function validate(array $data, array $rules, array $messages = [], array $attrs = []): array|WP_Error
     {
         $validator = self::factory()->make($data, $rules, $messages, $attrs);
