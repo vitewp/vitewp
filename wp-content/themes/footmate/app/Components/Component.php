@@ -38,19 +38,31 @@ abstract class Component extends ComponentBase
         $data = array_replace_recursive($this->getData(), $data);
         $data = apply_filters("fm_components_{$this->getId()}_data", $data);
 
-        if ($this->hasSchema() && ! is_admin()) {
+        if ($this->hasSchema()) {
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
-                throw new \Exception(
-                    esc_attr(
-                        sprintf(
-                            '%s component data verification failed: %s',
-                            $this->getTitle(),
-                            $result->get_error_message()
+                if (wp_doing_ajax() || defined('REST_REQUEST')) {
+                    wp_die(
+                        esc_attr(
+                            sprintf(
+                                '%s component data verification failed: %s',
+                                $this->getTitle(),
+                                $result->get_error_message()
+                            )
                         )
-                    )
-                );
+                    );
+                } else {
+                    throw new \Exception(
+                        esc_attr(
+                            sprintf(
+                                '%s component data verification failed: %s',
+                                $this->getTitle(),
+                                $result->get_error_message()
+                            )
+                        )
+                    );
+                }
             }
         }
 
