@@ -3,6 +3,7 @@
 namespace FM\Templates;
 
 use FM\Core\Validation;
+use Illuminate\View\ComponentAttributeBag;
 
 abstract class Template
 {
@@ -47,6 +48,10 @@ abstract class Template
             if (is_wp_error($result)) {
                 throw new \Exception(esc_attr($result->get_error_message()));
             }
+        }
+
+        if (empty($data['attributes'])) {
+            $data['attributes'] = new ComponentAttributeBag([]);
         }
 
         return $data;

@@ -4,6 +4,7 @@ namespace FM\Components;
 
 use FM\Core\Validation;
 use Illuminate\View\Component as ComponentBase;
+use Illuminate\View\ComponentAttributeBag;
 
 abstract class Component extends ComponentBase
 {
@@ -49,6 +50,10 @@ abstract class Component extends ComponentBase
             if (is_wp_error($result)) {
                 throw new \Exception(esc_attr($result->get_error_message()));
             }
+        }
+
+        if (empty($data['attributes'])) {
+            $data['attributes'] = new ComponentAttributeBag([]);
         }
 
         return $data;
