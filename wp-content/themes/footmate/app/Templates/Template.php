@@ -3,6 +3,7 @@
 namespace FM\Templates;
 
 use FM\Core\Validation;
+use FM\Templating\TemplatingException;
 use Illuminate\View\ComponentAttributeBag;
 
 abstract class Template
@@ -27,13 +28,15 @@ abstract class Template
     {
         try {
             return fm()->templating()->generate("templates::{$this->getId()}.template", $this->parse($data));
-        } catch (\Throwable $th) {
+        } catch (TemplatingException $th) {
             return block('exception')->generate(
                 [
                     'title' => __('Template Exception', 'fm'),
                     'message' => $th->getMessage(),
                 ]
             );
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 
@@ -46,7 +49,7 @@ abstract class Template
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
-                throw new \Exception(esc_attr($result->get_error_message()));
+                throw new TemplatingException(esc_attr($result->get_error_message()));
             }
         }
 

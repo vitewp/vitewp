@@ -4,6 +4,7 @@ namespace FM\Blocks;
 
 use FM\Core\Validation;
 use FM\Integrations\ACFInnerBlocks;
+use FM\Templating\TemplatingException;
 use Illuminate\View\ComponentAttributeBag;
 
 abstract class Block
@@ -30,13 +31,15 @@ abstract class Block
     {
         try {
             return fm()->templating()->generate("blocks::{$this->getId()}.template", $this->parse($data));
-        } catch (\Throwable $th) {
+        } catch (TemplatingException $th) {
             return block('exception')->generate(
                 [
                     'title' => __('Block Exception', 'fm'),
                     'message' => $th->getMessage(),
                 ]
             );
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 
@@ -49,7 +52,7 @@ abstract class Block
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
-                throw new \Exception(esc_attr($result->get_error_message()));
+                throw new TemplatingException(esc_attr($result->get_error_message()));
             }
         }
 

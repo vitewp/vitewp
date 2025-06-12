@@ -3,6 +3,7 @@
 namespace FM\Components;
 
 use FM\Core\Validation;
+use FM\Templating\TemplatingException;
 use Illuminate\View\Component as ComponentBase;
 use Illuminate\View\ComponentAttributeBag;
 
@@ -29,13 +30,15 @@ abstract class Component extends ComponentBase
 
         try {
             return fm()->templating()->generate("components::{$this->getId()}.template", $this->parse($data));
-        } catch (\Throwable $th) {
+        } catch (TemplatingException $th) {
             return block('exception')->generate(
                 [
-                    'title' => __('Component Exception', 'fs'),
+                    'title' => __('Component Exception', 'fm'),
                     'message' => $th->getMessage(),
                 ]
             );
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 
@@ -48,7 +51,7 @@ abstract class Component extends ComponentBase
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
-                throw new \Exception(esc_attr($result->get_error_message()));
+                throw new TemplatingException(esc_attr($result->get_error_message()));
             }
         }
 
