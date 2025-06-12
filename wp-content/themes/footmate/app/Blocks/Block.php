@@ -22,17 +22,21 @@ abstract class Block
     final public function render(array $data = []): void
     {
         $this->enqueue();
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo $this->generate($data);
+        echo $this->generate($data); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     final public function generate(array $data = []): string
     {
-        ob_start();
-
-        fm()->templating()->render("blocks::{$this->getId()}.template", $this->parse($data));
-
-        return ob_get_clean();
+        try {
+            return fm()->templating()->generate("blocks::{$this->getId()}.template", $this->parse($data));
+        } catch (\Throwable $th) {
+            return block('exception')->generate(
+                [
+                    'title' => __('Block Exception', 'fm'),
+                    'message' => $th->getMessage(),
+                ]
+            );
+        }
     }
 
     final protected function parse(array $data): array
@@ -40,31 +44,11 @@ abstract class Block
         $data = array_replace_recursive($this->getData(), $data);
         $data = apply_filters("fm_blocks_{$this->getId()}_data", $data);
 
-        if ($this->hasSchema() && ! is_admin()) {
+        if ($this->hasSchema()) {
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
-                if (wp_doing_ajax() || defined('REST_REQUEST')) {
-                    wp_die(
-                        esc_attr(
-                            sprintf(
-                                '%s block data verification failed: %s',
-                                $this->getTitle(),
-                                $result->get_error_message()
-                            )
-                        )
-                    );
-                } else {
-                    throw new \Exception(
-                        esc_attr(
-                            sprintf(
-                                '%s block data verification failed: %s',
-                                $this->getTitle(),
-                                $result->get_error_message()
-                            )
-                        )
-                    );
-                }
+                throw new \Exception(esc_attr($result->get_error_message()));
             }
         }
 

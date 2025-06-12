@@ -24,13 +24,18 @@ abstract class Component extends ComponentBase
 
     final public function generate(array $data = []): string
     {
-        ob_start();
-
         $data['attributes'] = $this->newAttributeBag();
 
-        fm()->templating()->render("components::{$this->getId()}.template", $this->parse($data));
-
-        return ob_get_clean();
+        try {
+            return fm()->templating()->generate("components::{$this->getId()}.template", $this->parse($data));
+        } catch (\Throwable $th) {
+            return block('exception')->generate(
+                [
+                    'title' => __('Component Exception', 'fs'),
+                    'message' => $th->getMessage(),
+                ]
+            );
+        }
     }
 
     final protected function parse(array $data): array
@@ -38,31 +43,11 @@ abstract class Component extends ComponentBase
         $data = array_replace_recursive($this->getData(), $data);
         $data = apply_filters("fm_components_{$this->getId()}_data", $data);
 
-        if ($this->hasSchema() && ! is_admin()) {
+        if ($this->hasSchema()) {
             $result = Validation::validate($data, $this->getSchema());
 
             if (is_wp_error($result)) {
-                if (wp_doing_ajax() || defined('REST_REQUEST')) {
-                    wp_die(
-                        esc_attr(
-                            sprintf(
-                                '%s component data verification failed: %s',
-                                $this->getTitle(),
-                                $result->get_error_message()
-                            )
-                        )
-                    );
-                } else {
-                    throw new \Exception(
-                        esc_attr(
-                            sprintf(
-                                '%s component data verification failed: %s',
-                                $this->getTitle(),
-                                $result->get_error_message()
-                            )
-                        )
-                    );
-                }
+                throw new \Exception(esc_attr($result->get_error_message()));
             }
         }
 
