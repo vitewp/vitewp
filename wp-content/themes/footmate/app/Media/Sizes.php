@@ -8,7 +8,7 @@ class Sizes
         'thumbnail' => [
             'width' => 400,
             'height' => 400,
-            'crop' => ['center', 'center'],
+            'crop' => true,
         ],
         'medium' => [
             'width' => 720,
