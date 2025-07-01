@@ -22,6 +22,7 @@ class ACF
                     'supports' => [
                         'jsx' => $block->usesInnerBlocks(),
                     ],
+                    'mode' => 'edit',
                     // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
                     'render_callback' => function ($config, $content, $preview, $post) use ($block) {
                         $block->render(
