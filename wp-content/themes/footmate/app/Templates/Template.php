@@ -31,7 +31,7 @@ abstract class Template
         } catch (TemplatingException $th) {
             return block('exception')->generate(
                 [
-                    'title' => __('Template Exception', 'fm'),
+                    'title' => sprintf(__('Template %s Exception', 'fm'), $this->getTitle()),
                     'message' => $th->getMessage(),
                 ]
             );

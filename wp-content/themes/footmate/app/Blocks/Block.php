@@ -34,7 +34,7 @@ abstract class Block
         } catch (TemplatingException $th) {
             return block('exception')->generate(
                 [
-                    'title' => __('Block Exception', 'fm'),
+                    'title' => sprintf(__('Block %s Exception', 'fm'), $this->getTitle()),
                     'message' => $th->getMessage(),
                 ]
             );

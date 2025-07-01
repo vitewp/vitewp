@@ -33,7 +33,7 @@ abstract class Component extends ComponentBase
         } catch (TemplatingException $th) {
             return block('exception')->generate(
                 [
-                    'title' => __('Component Exception', 'fm'),
+                    'title' => sprintf(__('Component %s Exception', 'fm'), $this->getTitle()),
                     'message' => $th->getMessage(),
                 ]
             );
