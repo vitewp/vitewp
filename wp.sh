@@ -18,6 +18,21 @@ function db:anonimize() {
   wp user update $(wp user list --field=ID) --user_pass=test1234 --skip-email
 }
 
+function db:optimize() {
+  read -p "Are you sure? (y/n) " choice
+  if [ "$choice" == "y" ]
+  then
+    wp post delete $(wp post list --post_type='revision' --format=ids) --force
+    wp db query "DELETE pm FROM wp_postmeta pm LEFT JOIN wp_posts wp ON wp.ID = pm.post_id WHERE wp.ID IS NULL;"
+    wp db query "DELETE FROM wp_commentmeta WHERE comment_id NOT IN (SELECT comment_id FROM wp_comments);"
+    wp db query "DELETE FROM wp_options WHERE option_name LIKE '_wp_session_%'"
+    wp db query "DELETE FROM wp_options WHERE option_name LIKE ('%_transient_%')"
+    wp db query "DELETE FROM wp_comments WHERE comment_type = 'pingback';"
+    wp db query "DELETE FROM wp_comments WHERE comment_type = 'trackback';"
+    wp db optimize
+  fi
+}
+
 function db:export() {
   wp db export db.sql
   gzip db.sql
@@ -36,10 +51,15 @@ function db:export:staging() {
 }
 
 function db:import() {
-  wp db reset --yes
-  gzip -d db.sql.gz
-  wp db import db.sql
-  rm db.sql
+  if [[ -f "db.sql.gz" ]]; then
+    gzip -d db.sql.gz
+  fi
+
+  if [[ -f "db.sql" ]]; then
+    wp db reset --yes
+    wp db import db.sql
+    rm db.sql
+  fi
 }
 
 function db:import:prod() {
@@ -63,6 +83,10 @@ function wp:env() {
 
 function wp:phpcs() {
   curl https://raw.githubusercontent.com/przemekhernik/templates/refs/heads/main/wordpress/phpcs.xml.dist -o phpcs.xml.dist
+}
+
+function wp:pipelines() {
+  curl https://raw.githubusercontent.com/przemekhernik/templates/refs/heads/main/ci/bitbucket-pipelines.yml -o bitbucket-pipelines.yml
 }
 
 function wp:init() {
@@ -110,7 +134,7 @@ function wp:init() {
     wp theme activate $THEME_SLUG/resources
     wp fm rename --company="$THEME_COMPANY" --name="$THEME_NAME" --slug="$THEME_SLUG" --namespace="$THEME_NAMESPACE" --initials="$THEME_INITIALS" --domain="$DOMAIN_LOCAL"
     cd wp-content/themes/$THEME_SLUG
-    composer install && yarn && yarn build
+    composer install && yarn && yarn build && yarn release
     cd ../../..
     rm -rf .git
 
@@ -124,6 +148,10 @@ function wp:init() {
 case $1 in
   "db:anonimize")
     db:anonimize
+    ;;
+
+  "db:optimize")
+    db:optimize
     ;;
 
   "db:export")
@@ -160,6 +188,10 @@ case $1 in
 
   "wp:phpcs")
     wp:phpcs
+    ;;
+
+  "wp:pipelines")
+    wp:pipelines
     ;;
   
   "wp:init")

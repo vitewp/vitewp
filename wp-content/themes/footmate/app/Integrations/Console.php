@@ -258,6 +258,10 @@ class Console
             WP_CLI::error('--company attribute is required');
         }
 
+        if (empty($assoc['company-domain'])) {
+            WP_CLI::error('--company-domain attribute is required');
+        }
+
         if (empty($assoc['name'])) {
             WP_CLI::error('--name attribute is required');
         }
@@ -301,7 +305,7 @@ class Console
         $files->push(FM_PATH . '/phpcs.xml.dist');
 
         foreach ($files as $file) {
-            fm()->filesystem()->put($file, str_replace(['fm.tentyp.test', 'pragmatedev', 'FootMATE', 'footmate', 'FM', 'fm'], [$assoc['domain'], $assoc['company'], $assoc['name'], $assoc['slug'], $assoc['namespace'], $assoc['initials']], fm()->filesystem()->get($file)));
+            fm()->filesystem()->put($file, str_replace(['fm.tentyp.test', 'pragmatedev', 'FootMATE', 'footmate', 'FM', 'fm', 'tentyp.dev'], [$assoc['domain'], $assoc['company'], $assoc['name'], $assoc['slug'], $assoc['namespace'], $assoc['initials'], $assoc['company-domain']], fm()->filesystem()->get($file)));
         }
 
         WP_CLI::success('Theme renamed. Run `composer install`, `yarn build`, `composer analyze` to test the results.');

@@ -24,4 +24,12 @@ class Setup
             ]
         );
     }
+
+    /**
+     * @filter wp_speculation_rules_configuration
+     */
+    public function disableSpeculativeLoading()
+    {
+        return null;
+    }
 }
