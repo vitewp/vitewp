@@ -132,7 +132,7 @@ function wp:init() {
     composer install && yarn && yarn build
     cd ../../..
     wp theme activate $THEME_SLUG/resources
-    wp fm rename --company="$THEME_COMPANY" --name="$THEME_NAME" --slug="$THEME_SLUG" --namespace="$THEME_NAMESPACE" --initials="$THEME_INITIALS" --domain="$DOMAIN_LOCAL"
+    wp fm rename --company="$THEME_COMPANY" --company-domain="$THEME_COMPANY_DOMAIN" --name="$THEME_NAME" --slug="$THEME_SLUG" --namespace="$THEME_NAMESPACE" --initials="$THEME_INITIALS" --domain="$DOMAIN_LOCAL"
     cd wp-content/themes/$THEME_SLUG
     composer install && yarn && yarn build && yarn release
     cd ../../..
