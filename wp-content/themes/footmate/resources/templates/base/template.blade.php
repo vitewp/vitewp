@@ -5,6 +5,6 @@
         class="template-base"
         data-template="base"
     >
-        base
+        {!! the_content() !!}
     </main>
 @endsection

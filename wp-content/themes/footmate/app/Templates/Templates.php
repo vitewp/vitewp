@@ -35,7 +35,7 @@ class Templates
     }
 
     /**
-     * @filter theme_page_templates
+     * @filter theme_templates
      */
     public function add(array $templates): array
     {
