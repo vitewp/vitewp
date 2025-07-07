@@ -56,9 +56,17 @@ abstract class Block
             }
         }
 
-        if (empty($data['attributes'])) {
-            $data['attributes'] = new ComponentAttributeBag([]);
+        $attributes = new ComponentAttributeBag();
+
+        if (! empty($data['attributes']['id'])) {
+            $attributes = $attributes->merge(['id' => $data['attributes']['id']]);
         }
+
+        if (! empty($data['attributes']['class'])) {
+            $attributes = $attributes->merge(['class' => $data['attributes']['class']]);
+        }
+
+        $data['attributes'] = $attributes;
 
         return $data;
     }

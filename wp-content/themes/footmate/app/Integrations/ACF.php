@@ -20,6 +20,7 @@ class ACF
                     'title' => $block->getTitle(),
                     'keywords' => ['footmate'],
                     'supports' => [
+                        'anchor' => true,
                         'jsx' => $block->usesInnerBlocks(),
                     ],
                     'mode' => $block->usesInnerBlocks() ? 'preview' : 'edit',
@@ -31,6 +32,10 @@ class ACF
                                 [
                                     'is_preview' => $preview,
                                     'inner_blocks' => $block->getInnerBlocks(),
+                                    'attributes' => [
+                                        'id' => ! empty($config['anchor']) ? $config['anchor'] : '',
+                                        'class' => ! empty($config['className']) ? $config['className'] : '',
+                                    ],
                                 ]
                             )
                         );

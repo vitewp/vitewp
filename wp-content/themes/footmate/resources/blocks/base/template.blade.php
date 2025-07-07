@@ -1,6 +1,11 @@
 <div
-    class="block-base"
-    data-block="base"
+    {{
+        $attributes
+            ->class(['block-base'])
+            ->merge([
+                'data-block' => 'block-base',
+            ])
+    }}
 >
     {{ $title }}
 </div>

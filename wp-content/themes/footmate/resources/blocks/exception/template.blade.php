@@ -1,6 +1,11 @@
 <div
-    class="block-exception"
-    data-block="exception"
+    {{
+        $attributes
+            ->class(['block-exception'])
+            ->merge([
+                'data-block' => 'block-exception',
+            ])
+    }}
 >
     <div class="block-exception__icon">⚠️</div>
 
