@@ -89,7 +89,7 @@ export default defineConfig({
       configureServer(server) {
         console.clear();
         console.log('\x1b[92mStatus:\x1b[0m ', 'Vite is Running 🚀');
-        console.log('\x1b[92mServer:\x1b[0m ', 'https://vitewp.test');
+        console.log('\x1b[92mServer:\x1b[0m ', 'https://fm.tentyp.test');
         console.log('\x1b[92mPath:\x1b[0m   ', server.config.base);
       },
     },
