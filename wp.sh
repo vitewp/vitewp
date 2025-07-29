@@ -118,14 +118,14 @@ function wp:init() {
     wp theme delete twentytwentythree
     wp theme delete twentytwentyfour
     wp comment delete 1 --force
-    wp rewrite structure '/%postname%/'
     wp option set blog_public 0
     wp option update show_on_front page
     wp option update page_on_front 2
     wp option update page_for_posts $(wp post create --post_title=Blog --post_name=blog --post_type=page --post_status=publish --post_author=1 --porcelain)
     wp option update default_comment_status closed
     wp option update default_ping_status closed
-    wp rewrite flush
+    wp rewrite structure '/%postname%/'
+    wp rewrite flush --hard
 
     mv wp-content/themes/footmate wp-content/themes/$THEME_SLUG
     cd wp-content/themes/$THEME_SLUG
