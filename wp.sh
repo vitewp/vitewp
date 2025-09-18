@@ -103,8 +103,13 @@ function wp:phpcs() {
   curl https://raw.githubusercontent.com/przemekhernik/templates/refs/heads/main/wordpress/phpcs.xml.dist -o phpcs.xml.dist
 }
 
-function wp:pipelines() {
+function bb:pipelines() {
   curl https://raw.githubusercontent.com/przemekhernik/templates/refs/heads/main/ci/bitbucket-pipelines.yml -o bitbucket-pipelines.yml
+}
+
+function gh:actions() {
+  mkdir -p .github/workflows
+  curl https://raw.githubusercontent.com/przemekhernik/templates/refs/heads/main/ci/github-actions.yaml -o .github/workflows/lint.yml
 }
 
 function wp:init() {
@@ -219,12 +224,16 @@ case $1 in
   "wp:phpcs")
     wp:phpcs
     ;;
-
-  "wp:pipelines")
-    wp:pipelines
-    ;;
   
   "wp:init")
     wp:init
+    ;;
+
+  "bb:pipelines")
+    bb:pipelines
+    ;;
+
+  "gh:actions")
+    gh:actions
     ;;
 esac
