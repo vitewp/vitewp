@@ -12,17 +12,17 @@ class Validation
 {
     public static function valid(mixed $data, string|array $rules): bool
     {
-        $validator = self::factory()->make(
-            is_string($rules) ? ['value' => $data] : $data,
-            is_string($rules) ? ['value' => $rules] : $rules
-        );
-
-        return ! $validator->fails();
+        return ! is_wp_error(self::validate($data, $rules));
     }
 
-    public static function validate(array $data, array $rules, array $messages = [], array $attrs = []): array|WP_Error
+    public static function validate(mixed $data, string|array $rules, array $messages = [], array $attrs = []): mixed
     {
-        $validator = self::factory()->make($data, $rules, $messages, $attrs);
+        $validator = self::factory()->make(
+            is_string($rules) ? ['value' => $data] : $data,
+            is_string($rules) ? ['value' => $rules] : $rules,
+            $messages,
+            $attrs
+        );
 
         if ($validator->fails()) {
             $errors = new WP_Error();
@@ -36,7 +36,7 @@ class Validation
             return $errors;
         }
 
-        return $validator->validated();
+        return is_string($rules) ? $validator->validated()['value'] : $validator->validated();
     }
 
     private static function factory(): Factory
