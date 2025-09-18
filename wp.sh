@@ -162,7 +162,7 @@ function wp:init() {
     rm -rf .git
 
     wp post create --post_type=page --post_title="Playground" --page_template="playground" --post_status=publish
-    wp post create --post_type=page --post_title="Demo" --page_template="playground" --post_status=publish
+    wp post create --post_type=page --post_title="Demo" --page_template="demo" --post_status=publish
 
     open "https://$DOMAIN_LOCAL"
   fi
