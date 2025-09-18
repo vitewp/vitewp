@@ -73,6 +73,24 @@ function db:import:staging() {
   wp search-replace $DOMAIN_STAGING $DOMAIN_LOCAL --all-tables
 }
 
+function ssh:connect() {
+  ssh user@host
+}
+
+function ssh:zip:prepare() {
+  zip -r wp-admin.zip wp-admin
+  zip -r wp-includes.zip wp-includes
+  zip -r wp-content/plugins.zip wp-content/plugins
+  zip -r wp-content/uploads.zip wp-content/uploads
+}
+
+function ssh:zip:clear() {
+  rm -rf wp-admin.zip
+  rm -rf wp-includes.zip
+  rm -rf wp-content/plugins.zip
+  rm -rf wp-content/uploads.zip
+}
+
 function wp:config() {
   curl https://raw.githubusercontent.com/przemekhernik/templates/main/wordpress/wp-config-db.php -o wp-config-db.php
 }
@@ -176,6 +194,18 @@ case $1 in
 
   "db:import:staging")
     db:import:staging
+    ;;
+
+  "ssh:connect")
+    ssh:connect
+    ;;
+
+  "ssh:zip:prepare")
+    ssh:zip:prepare
+    ;;
+
+  "ssh:zip:clear")
+    ssh:zip:clear
     ;;
 
   "wp:config")
