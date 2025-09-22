@@ -1,7 +1,7 @@
+.output
 dist
 vendor
 node_modules
 .DS_Store
-*.lock
-.env
-wp-config-db.php
+composer.lock
+yarn.lock

@@ -1,0 +1,35 @@
+%-wrapper, .-wrapper {
+  $gutter: 10;
+
+  max-width: calc(100% - #{$gutter}px * 2);
+  margin-right: auto;
+  margin-left: auto;
+
+  @include up(xxl, $gutter * 2) {
+    max-width: var(--container-xxl);
+  }
+}
+
+%-wrapper-full, .-wrapper-full {
+  width: var(--container-full);
+  margin-left: calc((var(--container-full) - 100%) / -2);
+  background: red;
+
+  & > * {
+    @extend %-wrapper;
+  }
+}
+
+.-noscroll {
+  overflow: hidden;
+  height: 100dvh;
+}
+
+.-noscrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -4,81 +4,76 @@ Here are the steps that should be performed when initializing a new WordPress pr
 
 1.  Clone the starter repository: `git clone git@github.com:vitewp/vitewp.git example.com`
 2.  Prepare the local environment:
-    1.  Create local server with PHP 8.2 and MySQL 8.4.
-    2.  Create a new database for the project.
-    3.  Assign a new domain to the project root with SSL: `https://example.test`
-3.  In the terminal, go to the project root and run:
-    1.  `./wp.sh wp:env` and set the environment details in newly created `.env` file.
-    2.  `./wp.sh wp:config` and set the environment details in `wp-config-db.php` file.
-    3.  `./wp.sh wp:init` to install WordPress.
-
-📹 https://www.youtube.com/watch?v=USqQ8lZuIsc
+    1.  Create local server with PHP 8.3 and MySQL 8.4.
+    2.  Create a new database for the project: `example.com`
+    3.  Assign a new domain to the project with SSL: `https://example.test`
+3.  In the terminal, go to the project root and run `./init.sh`.
 
 ## Installation
 
 Here are the steps that should be performed when initializing an ongoing WordPress project.
 
-1.  Clone the project repository: `git clone git@bitbucket.org:coditive/example.com.git`
+1.  Clone the project repository: `git clone git@github.com:vitewp/vitewp.git example.com`
 2.  Prepare the local environment:
-    1.  Create local server with PHP 8.2 and MySQL 8.4.
-    2.  Create a new database for the project.
-    3.  Assign a new domain to the project root with SSL: `https://example.test`
-3.  Open the terminal, go to the project root and run:
-    1.  `./wp.sh wp:env` and set the environment details in newly created `.env` file.
-    2.  `./wp.sh wp:config` and set the environment details in `wp-config-db.php` file.
-4.  Open terminal, go to `wp-content/themes/example` directory and run:
-    1.  `composer install`
-    2.  `yarn`
-    3.  `yarn build`
-    4.  `yarn release`
-5.  Get the `db.sql.gz` file from the team and put it in the project root directory.
-6.  Open the terminal and in the project root fire the `./wp.sh db:import` command.
-7.  Download the `wp-content/uploads` to your local environment from the production server.
-8.  Open the `https://example.test`.
+    1.  Create local server with PHP 8.3 and MySQL 8.4.
+    2.  Create a new database for the project: `example.com`
+    3.  Assign a new domain to the project with SSL: `https://example.test`
+3.  In the terminal, go to the project root and run `./init.sh`.
+4.  Download the `wp-content/uploads` to your local environment from the remote.
 
 ## Commands
 
 The project uses [Vite](https://pragmate.dev/wordpress/vite/integration/) as a bundler and development server with [HMR and Hot Reload](https://pragmate.dev/wordpress/vite/integration/#_4-bundling-improves-development-experience) features.
 
-*   `yarn dev` - Starts the development server \[[🔗](https://pragmate.dev/wordpress/vite/integration/#_4-bundling-improves-development-experience)\].
-*   `yarn build` - Builds theme assets in production mode \[[🔗](https://pragmate.dev/wordpress/vite/integration/#_2-bundling-improves-application-performance)\] \[[🔗](https://pragmate.dev/wordpress/vite/integration/#_3-bundling-improves-old-browsers-support)\].
-*   `yarn release `\- Builds theme in production mode and put files to put on server in the `.output` directory.
-*   `yarn format` - Formats codebase to meet defined coding standards.
-*   `yarn lint` - Checks codebase for meeting defined coding standards.
-*   `yarn report` - Tests the `/playground/` template with Lighthouse.
+- `yarn dev` - Starts the development server \[[🔗](https://pragmate.dev/wordpress/vite/integration/#_4-bundling-improves-development-experience)\].
+- `yarn build` - Builds theme assets in production mode \[[🔗](https://pragmate.dev/wordpress/vite/integration/#_2-bundling-improves-application-performance)\] \[[🔗](https://pragmate.dev/wordpress/vite/integration/#_3-bundling-improves-old-browsers-support)\].
+- `yarn lint` - Checks codebase for meeting defined coding standards.
+- `yarn format` - Formats codebase to meet defined coding standards.
+- `yarn translate` - Generates `lang.pot` file in the theme resources.
+- `yarn vilare` - Runs theme CLI tools.
+
+The project uses `vilare` CLI tool to enhance development operations.
+
+- `yarn vilare --help` - Displays help for a CLI tool.
+- `yarn vilare database` - Manages database operations.
+- `yarn vilare component` - Manages components operations.
+- `yarn vilare test` - Manages testing operations.
+- `yarn vilare release` - Creates production package.
+- `yarn vilare release deploy` - Deploys production package to staging server.
 
 ## General
 
-*   The project uses [Object Oriented](https://pragmate.dev/wordpress/architecture/oop-vs-procedural/#object-oriented-approach-in-wordpress) approach.
-*   The project uses [Singleton](https://pragmate.dev/wordpress/architecture/singleton/) for managing modules.
-*   The project uses [DocHooks syntax](https://pragmate.dev/wordpress/dochooks/#what-are-dochooks) for handling filters and actions.
-*   The project uses [Laravel Blade](https://pragmate.dev/wordpress/blade/introduction/) for creating components HTML structure.
-*   The project defines [coding standards](https://pragmate.dev/environment/linting/) for [PHP](https://pragmate.dev/php/phpcs/), [SCSS](https://pragmate.dev/css/stylelint/), [JS](https://pragmate.dev/js/eslint/) that must be met.
-*   The project uses Gutenberg to build the visual layer with [ACF Blocks](https://www.advancedcustomfields.com/resources/blocks/).
-*   The project [should limit plugins usage](https://pragmate.dev/wordpress/do-you-need-plugins/#how-to-decide-about-plugins-usage) as much as possible.
-*   The project should [split the responsibilities](https://pragmate.dev/architecture/model-view-controller/) as much as possible.
-*   The project uses [GitFlow](https://danielkummer.github.io/git-flow-cheatsheet/) as a branching workflow.
-*   The project uses `wp.sh` [script](https://github.com/vitewp/vitewp/blob/master/wp.sh) to manage database and other operations to automate workflows and keep environment integrity.
-*   Server details, passwords and other sensitive data are stored in 1Password.
-*   During the development phase all the custom blocks should be listed on the demo template so the team can access them at one place.
+- The project uses [Object Oriented](https://pragmate.dev/wordpress/architecture/oop-vs-procedural/#object-oriented-approach-in-wordpress) approach.
+- The project uses [Singleton](https://pragmate.dev/wordpress/architecture/singleton/) for managing modules.
+- The project uses [DocHooks syntax](https://pragmate.dev/wordpress/dochooks/#what-are-dochooks) for handling filters and actions.
+- The project uses [Laravel Blade](https://pragmate.dev/wordpress/blade/introduction/) for creating components HTML structure.
+- The project defines [coding standards](https://pragmate.dev/environment/linting/) for [PHP](https://pragmate.dev/php/phpcs/), [SCSS](https://pragmate.dev/css/stylelint/), [JS](https://pragmate.dev/js/eslint/) that must be met.
+- The project uses Gutenberg to build the visual layer with [ACF Blocks](https://www.advancedcustomfields.com/resources/blocks/).
+- The project [should limit plugins usage](https://pragmate.dev/wordpress/do-you-need-plugins/#how-to-decide-about-plugins-usage) as much as possible.
+- The project should [split the responsibilities](https://pragmate.dev/architecture/model-view-controller/) as much as possible.
+- The project uses [GitFlow](https://danielkummer.github.io/git-flow-cheatsheet/) as a branching workflow.
+- Server details, passwords and other sensitive data are stored in 1Password.
 
-## Development
+## Requirements
 
-*   Components should be developed on the [/playground/ page](https://example.com/playground/) available in the infrastructure.
-*   After finishing implementation, the Lighthouse tests should be done with `yarn report` command.
-*   After approving PR, staging server should be updated and the new block should be added to the [/demo/ page](https://example.com/demo/).
+### Development
 
-## Code Review
+- Single components should be developed on the [/playground/](https://example.com/playground/) template.
+- Before approaching Pull Requests, Lighthouse tests should be performed using the `yarn vilare test psi` command, which checks the `/playground/` page with the newly created component and highlights any issues that must be resolved. **Any problems directly related to the component must be addressed before proceeding to the next steps.**
+- After approving Pull Requests, the staging server should be updated, and the new block should be added to the [/demo/](https://example.com/demo/) template that lists all the custom blocks, allowing the team to access them in one place.
 
-*   Each `feature` branch must be merged to `develop` branch only via the Pull Request.
-*   Each Pull Request must meet the following requirements before merging:
-    *   It must pass the coding standard checks defined in Github Actions / Bitbucket Pipelines.
-    *   It should include Toggl, Basecamp, Preview links in the description.
-    *   It should include screenshots from Lighthouse tests performed by `yarn report` command for desktop or mobile.
-        *   There should be not not any accessibility issues related to the specific feature.
-        *   There should be not not any performance issues related to the specific feature.
-    *   It should have at least one approval from the project leader.
-        *   Pull requests must be assigned for review only when all the previous requirements are met.
+### Code Review
+
+- Each `feature` branch must be merged to `develop` branch only via the Pull Request.
+- Each Pull Request must meet the following requirements before merging:
+  - It must pass the coding standard checks defined in Github Actions / Bitbucket Pipelines.
+  - It should include Toggl, Basecamp, Preview links in the description.
+  - It should include screenshots from Lighthouse tests performed by `yarn vilare test psi` command.
+    - There should be not not any accessibility issues related to the specific feature.
+    - There should be not not any performance issues related to the specific feature.
+  - It should have at least one approval from the project leader.
+    - Pull requests must be assigned for review only when all the previous requirements are met.
+  - After approving pull request by the project leader, developer takes care of the merging process.
 
 ## Components
 
@@ -88,22 +83,22 @@ The project is created using a [component-driven](https://pragmate.dev/architect
 
 Components are the smallest units used to build websites supported by [Laravel Blade](https://laravel.com/docs/12.x/blade#rendering-components). They are available throughout the website and should include only the most basic functionalities to maintain simplicity.
 
-*   Creation: `yarn component --id=button --title=Button`
-*   Usage: `<x-button />`
+- Creation: `yarn vilare component create --type=button --id=button --title=Button`
+- Usage: `<x-button />`
 
 ### Block
 
 Blocks are larger units integrated with [ACF and Gutenberg](https://www.advancedcustomfields.com/resources/blocks/), used to define the layout of the website. They can include more complex functionalities and utilize granular components. When possible, blocks should use [InnerBlocks](https://www.advancedcustomfields.com/resources/acf-blocks-using-innerblocks-and-parent-child-relationships/) to provide flexibility for clients and should [utilize container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) instead of traditional media queries.
 
-*   Creation: `yarn block --id=button --title=Button`
-*   Usage: `{!! block('base')->render(['title' => 'custom title']) !!}`
+- Creation: `yarn vilare component create --type=block --id=newsletter --title=Newsletter`
+- Usage: `{!! block('newsletter')->render(['title' => 'custom title']) !!}`
 
 ### Template
 
 Templates are the largest components. Those defined in the theme are automatically resolved and rendered by WordPress.
 
-*   Creation: `yarn template --id=article --title=Article`
-*   Usage: Choose page template from WordPress admin panel.
+- Creation: `yarn vilare component create --type=template --id=article --title=Article`
+- Usage: Choose page template from WordPress admin panel.
 
 ### Example
 
