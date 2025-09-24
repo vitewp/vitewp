@@ -3,7 +3,7 @@
 @section('content')
     <main
         class="template-base -wrapper"
-        data-template="base"
+        x-data="template_base"
     >
         {!! the_content() !!}
     </main>

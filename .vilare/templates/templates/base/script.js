@@ -1,9 +1,4 @@
-class Base {
-  constructor(holder) {
-    this.holder = holder;
-  }
-}
-
-document
-  .querySelectorAll('[data-template="base"]')
-  .forEach(holder => new Base(holder));
+document.addEventListener('alpine:init', () => {
+  window.Alpine.data('template_base', () => ({
+  }));
+});
