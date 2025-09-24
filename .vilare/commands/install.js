@@ -281,7 +281,7 @@ class Controller {
     shell.exec('yarn translate:build');
     shell.exec(`wp theme activate ${this.theme.slug}/resources`);
     shell.exec('wp post create --post_type=page --post_title="Playground" --page_template="playground" --post_status=publish --post_author=1');
-    shell.exec('wp post create --post_type=page --post_title="Demo" --page_template="playground" --post_status=publish --post_author=1');
+    shell.exec('wp post create --post_type=page --post_title="Demo" --page_template="playground" --post_status=publish --post_author=1 --post_content=\'<!-- wp:acf/guide {"name":"acf/guide","data":[],"mode":"preview"} /-->\'');
 
     fs.copyFileSync(`${this.templates.path}/phpcs.xml.dist`, `${this.wordpress.path}/phpcs.xml.dist`);
     fs.copyFileSync(`${this.templates.path}/.gitignore`, `${this.wordpress.path}/.gitignore`);
@@ -436,7 +436,7 @@ class Controller {
   }
 
   async open() {
-    shell.exec(`open ${await config('DOMAIN_LOCAL')}`);
+    shell.exec(`open ${await config('DOMAIN_LOCAL')}/demo/`);
     console.log();
     console.log(chalk.green('Success:'), `Opened ${await config('DOMAIN_LOCAL')}`);
   }
