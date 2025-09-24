@@ -16,6 +16,8 @@ abstract class Template
 
     private array $schema = [];
 
+    private array $dependencies = [];
+
     private bool $primary = false;
 
     final public function render(array $data = []): void
@@ -64,6 +66,7 @@ abstract class Template
                 'deps' => ['script'],
             ]
         );
+
         vilare()->assets()->enqueue(
             "templates/{$this->getId()}/style.scss",
             [
@@ -71,6 +74,11 @@ abstract class Template
                 'deps' => ['style'],
             ]
         );
+
+        if (in_array('swiper', $this->dependencies)) {
+            vilare()->assets()->enqueue('scripts/swiper.js', ['handle' => 'swiper']);
+            vilare()->assets()->enqueue('styles/swiper.scss', ['handle' => 'swiper']);
+        }
     }
 
     final public function getId(): string
@@ -138,6 +146,12 @@ abstract class Template
     {
         return ! empty($this->getSchema());
     }
+
+    final public function setDependencies(array $dependencies): void
+    {
+        $this->dependencies = $dependencies;
+    }
+
 
     final public function isPrimary(): bool
     {

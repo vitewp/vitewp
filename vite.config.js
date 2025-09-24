@@ -11,6 +11,8 @@ export default defineConfig({
     rollupOptions: {
       input: [
         'resources/scripts/alpine.js',
+        'resources/scripts/swiper.js',
+        'resources/styles/swiper.scss',
         'resources/scripts/scripts.js',
         'resources/styles/styles.scss',
         'resources/styles/admin.scss',

@@ -17,6 +17,8 @@ abstract class Component extends ComponentBase
 
     private array $schema = [];
 
+    private array $dependencies = [];
+
     private bool $primary = true;
 
     final public function render(array $data = [])
@@ -66,6 +68,7 @@ abstract class Component extends ComponentBase
                 'deps' => ['script'],
             ]
         );
+
         vilare()->assets()->enqueue(
             "components/{$this->getId()}/style.scss",
             [
@@ -73,6 +76,11 @@ abstract class Component extends ComponentBase
                 'deps' => ['style'],
             ]
         );
+
+        if (in_array('swiper', $this->dependencies)) {
+            vilare()->assets()->enqueue('scripts/swiper.js', ['handle' => 'swiper']);
+            vilare()->assets()->enqueue('styles/swiper.scss', ['handle' => 'swiper']);
+        }
     }
 
     final public function getId(): string
@@ -139,6 +147,11 @@ abstract class Component extends ComponentBase
     final public function hasSchema(): bool
     {
         return ! empty($this->getSchema());
+    }
+
+    final public function setDependencies(array $dependencies): void
+    {
+        $this->dependencies = $dependencies;
     }
 
     public function isPrimary(): bool
