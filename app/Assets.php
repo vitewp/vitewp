@@ -14,6 +14,13 @@ class Assets
     public function front(): void
     {
         $this->enqueue(
+            'scripts/alpine.js',
+            [
+                'handle' => 'alpine',
+            ]
+        );
+
+        $this->enqueue(
             'styles/styles.scss',
             [
                 'handle' => 'style',
@@ -24,6 +31,7 @@ class Assets
             'scripts/scripts.js',
             [
                 'handle' => 'script',
+                'deps' => ['alpine'],
             ]
         );
 
@@ -37,6 +45,8 @@ class Assets
                 ]
             )
         );
+
+        wp_add_inline_style('style', 'body { [x-cloak] { display: none } }');
     }
 
     /**

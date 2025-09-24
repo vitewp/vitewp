@@ -10,6 +10,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: [
+        'resources/scripts/alpine.js',
         'resources/scripts/scripts.js',
         'resources/styles/styles.scss',
         'resources/styles/admin.scss',
