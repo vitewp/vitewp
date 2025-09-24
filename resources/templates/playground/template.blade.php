@@ -6,7 +6,7 @@
 
 @section('content')
     <main
-        class="template-playground"
+        class="template-playground -wrapper"
         x-data="template_playground"
     >
         {{ the_content() }}

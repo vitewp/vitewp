@@ -70,7 +70,12 @@ class Assets
             'vilare_assets_preload',
             [
                 [
-                    'href' => vilare()->assets()->resolve('fonts/Montserrat-Regular.woff2'),
+                    'href' => vilare()->assets()->resolve('fonts/Montserrat.woff2'),
+                    'as' => 'font',
+                    'type' => 'font/woff2',
+                ],
+                [
+                    'href' => vilare()->assets()->resolve('fonts/SourceSans3.woff2'),
                     'as' => 'font',
                     'type' => 'font/woff2',
                 ],

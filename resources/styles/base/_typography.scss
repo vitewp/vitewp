@@ -1,31 +1,41 @@
 @font-face {
   font-family: Montserrat;
-  font-weight: 300;
+  font-weight: 100 1000;
   font-style: normal;
   font-display: swap;
   src:
-    url('../fonts/Montserrat-Light.woff2') format('woff2'),
-    url('../fonts/Montserrat-Light.woff') format('woff');
+    url('../fonts/Montserrat.woff2') format('woff2'),
+    url('../fonts/Montserrat.woff') format('woff');
 }
 
 @font-face {
   font-family: Montserrat;
-  font-weight: 400;
-  font-style: normal;
+  font-weight: 100 1000;
+  font-style: italic;
   font-display: swap;
   src:
-    url('../fonts/Montserrat-Regular.woff2') format('woff2'),
-    url('../fonts/Montserrat-Regular.woff') format('woff');
+    url('../fonts/Montserrat-Italic.woff2') format('woff2'),
+    url('../fonts/Montserrat-Italic.woff') format('woff');
 }
 
 @font-face {
-  font-family: Montserrat;
-  font-weight: 500;
+  font-family: 'SourceSans3';
+  font-weight: 100 1000;
   font-style: normal;
   font-display: swap;
   src:
-    url('../fonts/Montserrat-Bold.woff2') format('woff2'),
-    url('../fonts/Montserrat-Bold.woff') format('woff');
+    url('../fonts/SourceSans3.woff2') format('woff2'),
+    url('../fonts/SourceSans3.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SourceSans3';
+  font-weight: 100 1000;
+  font-style: italic;
+  font-display: swap;
+  src:
+    url('../fonts/SourceSans3-Italic.woff2') format('woff2'),
+    url('../fonts/SourceSans3-Italic.woff') format('woff');
 }
 
 html {
