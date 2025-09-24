@@ -3,7 +3,7 @@
         $attributes
             ->class(['block-base'])
             ->merge([
-                'data-block' => 'block-base',
+                'x-data' => 'block_base',
             ])
     }}
 >
