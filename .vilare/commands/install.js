@@ -381,6 +381,8 @@ class Controller {
 
     console.log();
 
+    shell.cd(this.wordpress.path);
+
     if (remote.includes('bitbucket')) {
       fs.copyFileSync(`${this.templates.path}/ci/bitbucket-pipelines.yml`, `${this.wordpress.path}/bitbucket-pipelines.yml`);
       shell.exec(`sed -i '' 's/vilare/${this.theme.slug}/g' "${this.wordpress.path}/bitbucket-pipelines.yml"`);
@@ -405,6 +407,8 @@ class Controller {
       shell.exec('git push -u origin master');
       shell.exec('git push -u origin develop');
     }
+
+    shell.cd(this.theme.path);
   }
 
   async database() {
