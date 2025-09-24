@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html {!! language_attributes() !!}>
+<html
+    {!! language_attributes() !!}
+    x-data="vilare"
+>
     <head>
         <meta charset="utf-8" />
         <meta
