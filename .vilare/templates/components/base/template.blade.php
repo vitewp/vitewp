@@ -1,8 +1,10 @@
 <div
     {{
-        $attributes->class([])->merge([
-            'class' => 'component-base',
-        ])
+        $attributes
+            ->class(['component-base'])
+            ->merge([
+                'x-data' => 'component_base',
+            ])
     }}
 >
     {{ $title }}
