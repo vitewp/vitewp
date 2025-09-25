@@ -76,17 +76,17 @@ export class Controller {
         break;
 
       case 'staging':
-        shell.exec(`wp search-replace ${await config('DOMAIN_LOCAL')} ${await config('DOMAIN_STAGING')} --all-tables`);
+        shell.exec(`wp search-replace ${await config('DOMAIN_LOCAL')} ${await config('DOMAIN_STAGING')} --all-tables --report=0`);
         shell.exec(`wp db export ${this.wordpress.path}/db.sql`);
         shell.exec(`gzip ${this.wordpress.path}/db.sql`);
-        shell.exec(`wp search-replace ${await config('DOMAIN_STAGING')} ${await config('DOMAIN_LOCAL')} --all-tables`);
+        shell.exec(`wp search-replace ${await config('DOMAIN_STAGING')} ${await config('DOMAIN_LOCAL')} --all-tables --report=0`);
         break;
 
       case 'production':
-        shell.exec(`wp search-replace ${await config('DOMAIN_LOCAL')} ${await config('DOMAIN_PROD')} --all-tables`);
+        shell.exec(`wp search-replace ${await config('DOMAIN_LOCAL')} ${await config('DOMAIN_PROD')} --all-tables --report=0`);
         shell.exec(`wp db export ${this.wordpress.path}/db.sql`);
         shell.exec(`gzip ${this.wordpress.path}/db.sql`);
-        shell.exec(`wp search-replace ${await config('DOMAIN_PROD')} ${await config('DOMAIN_LOCAL')} --all-tables`);
+        shell.exec(`wp search-replace ${await config('DOMAIN_PROD')} ${await config('DOMAIN_LOCAL')} --all-tables --report=0`);
         break;
 
       default:
@@ -109,11 +109,11 @@ export class Controller {
 
     switch (environment) {
       case 'staging':
-        shell.exec(`wp search-replace ${await config('DOMAIN_STAGING')} ${await config('DOMAIN_LOCAL')} --all-tables`);
+        shell.exec(`wp search-replace ${await config('DOMAIN_STAGING')} ${await config('DOMAIN_LOCAL')} --all-tables --report=0`);
         break;
 
       case 'production':
-        shell.exec(`wp search-replace ${await config('DOMAIN_PROD')} ${await config('DOMAIN_LOCAL')} --all-tables`);
+        shell.exec(`wp search-replace ${await config('DOMAIN_PROD')} ${await config('DOMAIN_LOCAL')} --all-tables --report=0`);
         shell.exec('wp option set blog_public 0');
         shell.exec('wp user update $(wp user list --field=ID) --user_pass=test1234 --skip-email');
         break;

@@ -110,15 +110,24 @@ class Controller {
   }
 
   async setup() {
+    await this.build();
     await this.config();
     await this.database();
     await this.open();
   }
 
+  async build() {
+    console.log('🔧 Building Project\r\n');
+
+    shell.exec('yarn build');
+
+    console.log();
+  }
+
   async config() {
     console.log('🔑 Setting Up System Configuration\r\n');
 
-    fs.copyFileSync(`${this.templates.path}/wp-config-db.php`, `${this.wordpress.path}/wp-config-db.php`);
+    fs.copyFileSync(`${this.templates.path}/configs/wp-config-db.php`, `${this.wordpress.path}/wp-config-db.php`);
 
     const inputs = await inquirer.prompt([
       {
@@ -204,14 +213,14 @@ class Controller {
       prod: (await config('DOMAIN_PROD')).replace(/^https?:\/\//, '').replace(/\//g, ''),
     };
 
-    fs.copyFileSync(`${this.templates.path}/.htaccess`, `${this.wordpress.path}/.htaccess`);
-    fs.copyFileSync(`${this.templates.path}/.htpasswd`, `${this.wordpress.path}/.htpasswd`);
+    fs.copyFileSync(`${this.templates.path}/configs/htaccess`, `${this.wordpress.path}/.htaccess`);
+    fs.copyFileSync(`${this.templates.path}/configs/htpasswd`, `${this.wordpress.path}/.htpasswd`);
 
     shell.exec(`sed -i '' "s|example.test|${domains.local}|g; s|example.com|${domains.prod}|g" ${this.wordpress.path}/.htaccess`);
   }
 
   async core() {
-    console.log('\r\n🔧 Setting Up WordPress Core\r\n');
+    console.log('🔧 Setting Up WordPress Core\r\n');
 
     const site = await inquirer.prompt([
       {
@@ -253,8 +262,8 @@ class Controller {
 
     console.log();
 
-    fs.copyFileSync(`${this.templates.path}/wp-config.php`, `${this.wordpress.path}/wp-config.php`);
-    fs.copyFileSync(`${this.templates.path}/wp-cli.yml`, `${this.wordpress.path}/wp-cli.yml`);
+    fs.copyFileSync(`${this.templates.path}/configs/wp-config.php`, `${this.wordpress.path}/wp-config.php`);
+    fs.copyFileSync(`${this.templates.path}/configs/wp-cli.yml`, `${this.wordpress.path}/wp-cli.yml`);
 
     shell.exec(`wp core download --path=${this.wordpress.path}`);
     shell.exec('wp config shuffle-salts');
@@ -278,19 +287,21 @@ class Controller {
     shell.exec('wp rewrite structure \'/%postname%/\'');
     shell.exec('wp rewrite flush --hard');
 
-    shell.exec('yarn build');
+    await this.build();
     shell.exec('yarn translate:build');
     shell.exec(`wp theme activate ${this.theme.slug}/resources`);
     shell.exec('wp post create --post_type=page --post_title="Playground" --page_template="playground" --post_status=publish --post_author=1');
     shell.exec('wp post create --post_type=page --post_title="Demo" --page_template="playground" --post_status=publish --post_author=1 --post_content=\'<!-- wp:acf/guide {"name":"acf/guide","data":[],"mode":"preview"} /-->\'');
 
-    fs.copyFileSync(`${this.templates.path}/phpcs.xml.dist`, `${this.wordpress.path}/phpcs.xml.dist`);
-    fs.copyFileSync(`${this.templates.path}/.gitignore`, `${this.wordpress.path}/.gitignore`);
+    fs.copyFileSync(`${this.templates.path}/configs/phpcs.xml.dist`, `${this.wordpress.path}/phpcs.xml.dist`);
+    fs.copyFileSync(`${this.templates.path}/configs/gitignore`, `${this.wordpress.path}/.gitignore`);
     fs.unlinkSync(`${this.wordpress.path}/wp-cli.yml`);
+
+    console.log();
   }
 
   async plugins() {
-    console.log('\r\n🧩 Setting Up WordPress Plugins \r\n');
+    console.log('🧩 Setting Up WordPress Plugins \r\n');
 
     const inputs = await inquirer.prompt([
       {
@@ -360,16 +371,18 @@ class Controller {
       shell.exec('wp option patch update wpseo semrush_integration_active 0', { silent: true });
       shell.exec('wp option patch update wpseo wincher_integration_active 0', { silent: true });
     }
+
+    console.log();
   }
 
   async init() {
     fs.unlinkSync(`${this.wordpress.path}/init.sh`);
-    fs.copyFileSync(`${this.templates.path}/init-repository.sh`, `${this.wordpress.path}/init.sh`);
+    fs.copyFileSync(`${this.templates.path}/configs/init-repository.sh`, `${this.wordpress.path}/init.sh`);
     shell.exec(`sed -i '' "s|themes/vilare|themes/${this.theme.slug}|g" ${this.wordpress.path}/init.sh`);
   }
 
   async repo() {
-    console.log('\r\n🔄 Setting Up Repository \r\n');
+    console.log('🔄 Setting Up Repository \r\n');
 
     const { remote } = await inquirer.prompt([
       {
@@ -385,13 +398,13 @@ class Controller {
     shell.cd(this.wordpress.path);
 
     if (remote.includes('bitbucket')) {
-      fs.copyFileSync(`${this.templates.path}/ci/bitbucket-pipelines.yml`, `${this.wordpress.path}/bitbucket-pipelines.yml`);
+      fs.copyFileSync(`${this.templates.path}/pipelines/bitbucket-pipelines.yml`, `${this.wordpress.path}/bitbucket-pipelines.yml`);
       shell.exec(`sed -i '' 's/vilare/${this.theme.slug}/g' "${this.wordpress.path}/bitbucket-pipelines.yml"`);
     }
 
     if (remote.includes('github')) {
       fs.mkdirSync(`${this.wordpress.path}/.github/workflows`, { recursive: true });
-      fs.copyFileSync(`${this.templates.path}/ci/github-actions.yaml`, `${this.wordpress.path}/.github/workflows/lint.yaml`);
+      fs.copyFileSync(`${this.templates.path}/pipelines/github-actions.yaml`, `${this.wordpress.path}/.github/workflows/lint.yaml`);
       shell.exec(`sed -i '' 's/vilare/${this.theme.slug}/g' ${this.wordpress.path}/.github/workflows/lint.yaml`);
     }
 
@@ -410,10 +423,12 @@ class Controller {
     }
 
     shell.cd(this.theme.path);
+
+    console.log();
   }
 
   async database() {
-    console.log('\r\n📂 Setting Up WordPress Database\r\n');
+    console.log('📂 Setting Up WordPress Database\r\n');
 
     const database = new Database();
 
@@ -438,6 +453,8 @@ class Controller {
     console.log();
 
     await database.import(environment);
+
+    console.log();
   }
 
   async open() {

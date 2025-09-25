@@ -9,8 +9,8 @@
   <file>inc</file>
   <file>resources</file>
 
-  <exclude-pattern>.vilare/templates/wp-config.php</exclude-pattern>
-  <exclude-pattern>.vilare/templates/wp-config-db.php</exclude-pattern>
+  <exclude-pattern>.vilare/templates/configs/wp-config.php</exclude-pattern>
+  <exclude-pattern>.vilare/templates/configs/wp-config-db.php</exclude-pattern>
 
   <rule ref="PSR12" />
 
