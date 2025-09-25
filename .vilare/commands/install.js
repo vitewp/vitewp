@@ -110,6 +110,7 @@ class Controller {
   }
 
   async setup() {
+    await this.config();
     await this.database();
     await this.open();
   }
