@@ -1,3 +1,5 @@
+> This template was created on early stages of the Vite + Laravel + WordPress integration. The project is now in an advanced state, so it has been renamed to Vilare and received its own repository. You can find it [here](https://github.com/pragmatedev/vilare).
+
 ## Initialization
 
 Here are the steps that should be performed when initializing a new WordPress project.
